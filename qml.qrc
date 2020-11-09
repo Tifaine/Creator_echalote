@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>GestionActions/MainPageGestionActions.qml</file>
         <file>Composants/SelecteurOnglets.qml</file>
+        <file>Composants/FlickableList.qml</file>
     </qresource>
 </RCC>
