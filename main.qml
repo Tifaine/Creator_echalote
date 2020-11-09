@@ -52,6 +52,7 @@ Item {
 
         ListModel
         {
+            //On remplit la liste des onglets que l'on veut.
             id:listModel
             ListElement{ _nom:" " ;     index : 0 }
             ListElement{ _nom:" " ;         index : 1 }
@@ -63,6 +64,7 @@ Item {
         }
 
         SelecteurOnglets {
+            //Le sélecteur nous indique lorsqu'un nouvel onglet a été sélectionné via un signal
             id: selecteurOnglets
             anchors.left: parent.left
             anchors.top: parent.top
@@ -74,6 +76,9 @@ Item {
         SwipeView
         {
             id:swipeview
+            //Le swipeView permet d'avoir plusieurs onglets et d'en afficher un seul,
+            //en reliant l'index du SwipeView directement au sélecteur d'onglets,
+            //On peut modifier l'onglet afficher directement en cliquant sur l'onglet correspondant sur le sélecteur
             currentIndex: selecteurOnglets.indiceAffiche
             anchors.right: rectangle.right
             anchors.rightMargin: 0
