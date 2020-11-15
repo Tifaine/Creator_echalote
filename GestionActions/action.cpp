@@ -25,6 +25,15 @@ bool Action::isBlocante() const
 void Action::setBlocante(bool value)
 {
     blocante = value;
+    if(blocante)
+    {
+        listParam.insert(0, new Parametre);
+        listParam.at(0)->name = "Timeout";
+        listParam.at(0)->defaultValue = "10000";
+    }else
+    {
+        listParam.removeAt(0);
+    }
 }
 
 void Action::addParam()

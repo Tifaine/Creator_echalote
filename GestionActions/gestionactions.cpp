@@ -23,7 +23,7 @@ void GestionActions::modifyIsBlocante(int indiceAction, bool blocante)
 {
     if(indiceAction < listActions.size())
     {
-        listActions.at(indiceAction)->setBlocante(blocante);
+        listActions.at(indiceAction)->setBlocante(blocante);       
     }
 }
 

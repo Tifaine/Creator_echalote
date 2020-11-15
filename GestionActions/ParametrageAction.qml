@@ -79,33 +79,41 @@ Item
         }
     }
 
-    CheckBox
+    Rectangle
     {
         id: cbBlocante
-        width: 140
+        property bool checked:false
+        width: 24
         height: 30
-        text: qsTr("Action blocante ?")
+        radius: 5
+        color:"transparent"
+        border.color: "white"
+        border.width: 1
         anchors.left: tfName.right
         anchors.top: parent.top
-        font.pointSize: 12
-        font.bold: true
         anchors.leftMargin: 35
         anchors.topMargin: 13
-        contentItem: Text
-        {
-            width: 150
-            anchors.fill:parent
-            text:cbBlocante.text
+
+        Text {
+            id: cbText
+            text: cbBlocante.checked === false ? qsTr(" "):qsTr("X")
+            anchors.fill: parent
             verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignRight
-            font.bold:true
+            anchors.leftMargin: 5
+            anchors.rightMargin: 120
+            font.bold: true
+            font.pointSize: 15
             color:"white"
         }
-        onClicked:
+        MouseArea
         {
-            if(isModificationManual && indiceActionEnCours !== -1)
+            id:mouseAreaCB
+            anchors.fill: parent
+            onClicked:
             {
-                gestActions.modifyIsBlocante(indiceActionEnCours, checked)
+                cbBlocante.checked = !cbBlocante.checked
+                gestActions.modifyIsBlocante(indiceActionEnCours, cbBlocante.checked)
+                setParam(indiceActionEnCours)
             }
         }
     }
@@ -320,6 +328,7 @@ Item
                         anchors.top: parent.top
                         anchors.topMargin: 8
                         font.pointSize: 8
+                        visible:(index===0 && cbBlocante.checked)?false:true
                         onPressed:
                         {
                             if(isModificationManual && indiceActionEnCours !== -1)
@@ -498,6 +507,17 @@ Item
             listAlias.append({_nom:"Alias", _valueDefault:"value", index:listAlias.count, _color:"#00ffffff"})
             gestActions.addAlias(indiceActionEnCours, indiceParamEnCours)
         }
+    }
+
+    Text {
+        id: text3
+        text: qsTr("Action blocante")
+        anchors.left: cbBlocante.right
+        anchors.top: parent.top
+        font.pixelSize: 15
+        anchors.leftMargin: 5
+        anchors.topMargin: 20
+        color:"white"
     }
 }
 
