@@ -29,8 +29,6 @@ Item {
                 GradientStop { position: 0.0; color: "#0d0d0d" }
                 GradientStop { position: 1.0; color: "#262626" }
             }
-
-
         }
 
         LinearGradient {

@@ -4,6 +4,8 @@
 #include <QQmlContext>
 #include <QtCore/QDir>
 
+#include "GestionActions/gestionactions.h"
+
 void initRep();
 
 int main(int argc, char *argv[])
@@ -14,6 +16,10 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain("RCO");
 
     initRep();
+
+
+    GestionActions gestAction;
+
     // The following are needed to make examples run without having to install the module
     // in desktop environments.
 
@@ -23,6 +29,8 @@ int main(int argc, char *argv[])
     viewer.engine()->addImportPath(extraImportPath.arg(QGuiApplication::applicationDirPath(),
                                                        QString::fromLatin1("qml")));
     QObject::connect(viewer.engine(), &QQmlEngine::quit, &viewer, &QWindow::close);
+
+    viewer.engine()->rootContext()->setContextProperty("gestActions", &gestAction);
 
     viewer.setTitle(QStringLiteral("Creator Echalote"));
 #ifdef Q_OS_LINUX

@@ -57,11 +57,10 @@ Item {
 
             function updateColor(indice)
             {
-
-                listAction.setProperty(indice,"_color","#300000");
+                itemParent.model.setProperty(indice,"_color","#300000");
                 if(behaviorSelected !== -1 && indice !== behaviorSelected)
                 {
-                    listAction.setProperty(behaviorSelected,"_color","#00ffffff");
+                    itemParent.model.setProperty(behaviorSelected,"_color","#00ffffff");
                 }
 
                 behaviorSelected = indice
