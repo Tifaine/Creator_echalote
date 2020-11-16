@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QDir>
 #include "action.h"
 
 class GestionActions : public QObject
@@ -12,6 +13,7 @@ public:
     explicit GestionActions(QObject *parent = nullptr);
 
 public slots:
+    int getNbAction();
     void addAction();
     void modifyName(int indiceAction, QString nom);
     void modifyIsBlocante(int indiceAction, bool blocante);
@@ -34,8 +36,11 @@ public slots:
     void setAliasValue(int indiceAction, int indiceParam, int indiceAlias, QString value);
     void deleteAlias(int indiceAction, int indiceParam, int indiceAlias);
 
-signals:
+    void saveAction(int indiceAction);
+    void openAllAction();
 
+signals:
+    void finChargementAllActions();
 private:
     QList<Action *> listActions;
 };

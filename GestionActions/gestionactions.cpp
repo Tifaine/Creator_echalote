@@ -6,6 +6,11 @@ GestionActions::GestionActions(QObject *parent) : QObject(parent)
 
 }
 
+int GestionActions::getNbAction()
+{
+    return listActions.size();
+}
+
 void GestionActions::addAction()
 {
     listActions.append(new Action("Nouvelle action"));
@@ -162,4 +167,36 @@ void GestionActions::deleteAlias(int indiceAction, int indiceParam, int indiceAl
     {
         listActions.at(indiceAction)->deleteAlias(indiceParam, indiceAlias);
     }
+}
+
+void GestionActions::saveAction(int indiceAction)
+{
+    if(indiceAction < listActions.size())
+    {
+        listActions.at(indiceAction)->save();
+    }
+}
+
+void GestionActions::openAllAction()
+{
+    QDir dir("data/Actions");
+    QStringList filters;
+    filters << "*.json";
+    dir.setNameFilters(filters);
+    QFileInfoList list = dir.entryInfoList();
+
+    listActions.clear();
+    listActions.append(new Action("Départ"));
+    listActions.append(new Action("Fin"));
+    listActions.append(new Action("Sequence"));
+    listActions.last()->addParam();
+    listActions.last()->setParamName(0, "Nom");
+    listActions.last()->setParamDefaultValue(0, "init");
+
+    for(int i = 0; i < list.size(); i++)
+    {
+        listActions.append(new Action("boop"));
+        listActions.last()->loadAction("data/Actions/"+list.at(i).fileName());
+    }
+    emit finChargementAllActions();
 }

@@ -3,7 +3,7 @@
 #include <QtQml/QQmlEngine>
 #include <QQmlContext>
 #include <QtCore/QDir>
-
+#include <QFontDatabase>
 #include "GestionActions/gestionactions.h"
 
 void initRep();
@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 
     QQuickView viewer;
     QString extraImportPath(QStringLiteral("%1/../../../%2"));
+    QFontDatabase::addApplicationFont("data/icomoon/fonts/icomoon.ttf");
 
     viewer.engine()->addImportPath(extraImportPath.arg(QGuiApplication::applicationDirPath(),
                                                        QString::fromLatin1("qml")));
@@ -41,6 +42,8 @@ int main(int argc, char *argv[])
 
 #endif
     viewer.engine()->rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
+    //viewer.engine()->rootContext()->setContextProperty("icomoon", font);
+
 
     viewer.setSource(QUrl("qrc:/main.qml"));
     viewer.setResizeMode(QQuickView::SizeRootObjectToView);

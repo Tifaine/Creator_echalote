@@ -18,6 +18,23 @@ Item {
     Component.onCompleted:
     {
         listAction.clear()
+        gestActions.openAllAction()
+    }
+
+    Connections
+    {
+        target:gestActions
+        function onFinChargementAllActions()
+        {
+            item1.actionEnCours = -1
+            listAction.clear()
+            for(var i = 0; i < gestActions.getNbAction(); i++)
+            {
+                listAction.append({"_x":(listAction.count%2)==1?(listAction.count==1?0:(Math.floor(listAction.count/2))*115)+5:((listAction.count/2)*115)+5,
+                                      "_y":(listAction.count%2)==1?50:5, "_height":40 , "_width":110, "_nom":gestActions.getNomAction(i) , "index" : listAction.count,
+                                      "_color":"#00ffffff"})
+            }
+        }
     }
 
     ListModel
@@ -55,6 +72,7 @@ Item {
 
     Rectangle
     {
+        id: rect
         height: 1
         color: "#ffffff"
         anchors.left: parent.left
@@ -67,11 +85,12 @@ Item {
 
     ParametrageAction {
         id: parametrageAction
-        y: 195
         visible:actionEnCours!==-1?true:false
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.top: rect.bottom
         anchors.bottom: parent.bottom
+        anchors.topMargin: 0
         anchors.rightMargin: 0
         anchors.leftMargin: 0
         anchors.bottomMargin: 0

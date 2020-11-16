@@ -12,6 +12,10 @@
  */
 
 #include <QObject>
+#include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 typedef struct Alias
 {
@@ -57,6 +61,9 @@ public:
     void setAliasName(int indiceParam, int indiceAlias, QString name);
     void setAliasValue(int indiceParam, int indiceAlias, QString value);
     void deleteAlias(int indiceParam, int indiceAlias);
+
+    void save();
+    void loadAction(QString nameFile);
 
 private:
     QString _nom;

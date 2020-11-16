@@ -111,9 +111,13 @@ Item
             anchors.fill: parent
             onClicked:
             {
-                cbBlocante.checked = !cbBlocante.checked
-                gestActions.modifyIsBlocante(indiceActionEnCours, cbBlocante.checked)
-                setParam(indiceActionEnCours)
+                if(isModificationManual)
+                {
+                    console.log("la")
+                    cbBlocante.checked = !cbBlocante.checked
+                    gestActions.modifyIsBlocante(indiceActionEnCours, cbBlocante.checked)
+                    setParam(indiceActionEnCours)
+                }
             }
         }
     }
@@ -210,6 +214,10 @@ Item
         ToolTip.delay: 500
         ToolTip.visible: hovered
         ToolTip.text:qsTr("Enregistre l'action dans un fichier json.")
+        onPressed:
+        {
+            gestActions.saveAction(indiceActionEnCours)
+        }
     }
 
     ListModel
@@ -317,24 +325,30 @@ Item
                         }
                     }
 
-                    Button
+                    Text
                     {
                         id:buttonDelete
                         height:20
                         width:20
-                        text:"D"
+                        text:"\ue9ac"
+                        color:mouseAreaDelete.pressed?Qt.darker("white", 2):"white"
                         anchors.right:parent.right
                         anchors.rightMargin: 12
                         anchors.top: parent.top
                         anchors.topMargin: 8
-                        font.pointSize: 8
+                        font.pointSize: 12
                         visible:(index===0 && cbBlocante.checked)?false:true
-                        onPressed:
+                        MouseArea
                         {
-                            if(isModificationManual && indiceActionEnCours !== -1)
+                            id:mouseAreaDelete
+                            anchors.fill: parent
+                            onReleased:
                             {
-                                gestActions.deleteParametre(indiceActionEnCours, index)
-                                setParam(indiceActionEnCours)
+                                if(isModificationManual && indiceActionEnCours !== -1)
+                                {
+                                    gestActions.deleteParametre(indiceActionEnCours, index)
+                                    setParam(indiceActionEnCours)
+                                }
                             }
                         }
                     }
@@ -439,7 +453,7 @@ Item
                         color: "#ffffff"
                         text: _valueDefault
                         anchors.left: parent.left
-                        anchors.right: buttonDelete1.left
+                        anchors.right: buttonDeleteAlias.left
                         anchors.top: parent.top
                         background: Rectangle {
                             color: "#22ffffff"
@@ -460,22 +474,27 @@ Item
                         }
                     }
 
-                    Button {
-                        id: buttonDelete1
+                    Text {
+                        id: buttonDeleteAlias
                         width: 20
                         height: 20
-                        text: "D"
+                        text:"\ue9ac"
+                        color:"white"
                         anchors.right: parent.right
                         anchors.top: parent.top
                         anchors.topMargin: 8
-                        font.pointSize: 8
+                        font.pointSize: 12
                         anchors.rightMargin: 12
-                        onPressed:
+                        MouseArea
                         {
-                            if(isModificationManual && indiceActionEnCours !== -1 && indiceParamEnCours !== -1)
+                            anchors.fill: parent
+                            onReleased:
                             {
-                                gestActions.deleteAlias(indiceActionEnCours, indiceParamEnCours, index)
-                                updateListAlias(indiceParamEnCours)
+                                if(isModificationManual && indiceActionEnCours !== -1 && indiceParamEnCours !== -1)
+                                {
+                                    gestActions.deleteAlias(indiceActionEnCours, indiceParamEnCours, index)
+                                    updateListAlias(indiceParamEnCours)
+                                }
                             }
                         }
                     }

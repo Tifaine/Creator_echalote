@@ -166,3 +166,103 @@ void Action::deleteAlias(int indiceParam, int indiceAlias)
         }
     }
 }
+
+void Action::save()
+{
+    QFile saveFile("data/Actions/"+ getNom() +".json");
+    if(!saveFile.open(QIODevice::ReadWrite))
+    {
+        qDebug()<<"Failed ! "<<saveFile.fileName();
+    }else
+    {
+        saveFile.flush();
+        saveFile.resize(0);
+        QJsonObject saveObject;
+        saveObject["nomAction"] = _nom;
+        saveObject["blocante"] = blocante;
+
+        QJsonArray arrayParam;
+        QString nomParam("nomParam");
+        QString defaultValue("defaultValue");
+        for(auto item : listParam)
+        {
+            QJsonObject item_data;
+            item_data.insert(nomParam, QJsonValue(item->name));
+            item_data.insert(defaultValue, QJsonValue(item->defaultValue));
+
+            QJsonArray arrayAlias;
+            QString nomAlias("nomAlias");
+            QString valueAlias("valueAlias");
+            QString aliasArray("aliasArray");
+            for(auto itemAlias : item->listAlias)
+            {
+                QJsonObject item_Alias;
+                item_Alias.insert(nomAlias, QJsonValue(itemAlias->name));
+                item_Alias.insert(valueAlias, QJsonValue(itemAlias->value));
+
+                arrayAlias.push_back(QJsonValue(item_Alias));
+            }
+            item_data.insert(aliasArray, QJsonValue(arrayAlias));
+
+            arrayParam.push_back(QJsonValue(item_data));
+        }
+
+        saveObject["paramArray"] = arrayParam;
+
+        QJsonDocument saveDoc(saveObject);
+        saveFile.write(saveDoc.toJson());
+    }
+    saveFile.close();
+}
+
+void Action::loadAction(QString nameFile)
+{
+    QFile loadFile(nameFile);
+    if(!loadFile.open(QIODevice::ReadOnly))
+    {
+        qDebug()<<"Failed ! "<<loadFile.fileName();
+    }else
+    {
+        QByteArray saveData = loadFile.readAll();
+        QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+        QJsonObject json = loadDoc.object();
+        if(json.contains("nomAction") )
+        {
+            setNom(json["nomAction"].toString());
+        }
+        if(json.contains("blocante") )
+        {
+            blocante = json["blocante"].toBool();
+        }
+        if(json.contains("paramArray") )
+        {
+            QJsonArray array = json["paramArray"].toArray();
+            foreach (const QJsonValue & v, array)
+            {
+                addParam();
+                QJsonObject obj = v.toObject();
+                if(obj.contains("nomParam") )
+                {
+                    setParamName(getNbParam()-1, obj["nomParam"].toString());
+                }
+                if(obj.contains("defaultValue") )
+                {
+                    setParamDefaultValue(getNbParam()-1, obj["defaultValue"].toString());
+                }
+                if(obj.contains("aliasArray") )
+                {
+                    QJsonArray arrayAlias = obj["aliasArray"].toArray();
+                    foreach (const QJsonValue & w, arrayAlias)
+                    {
+                        addAlias(getNbParam()-1);
+                        QJsonObject objAlias = w.toObject();
+                        setAliasName(getNbParam()-1, getNbAlias(getNbParam()-1)-1, objAlias.value("nomAlias").toString());
+                        setAliasValue(getNbParam()-1, getNbAlias(getNbParam()-1)-1, objAlias.value("valueAlias").toString());
+                    }
+                }
+            }
+        }
+        loadFile.close();
+    }
+}
+
