@@ -357,7 +357,6 @@ Item
         }
     }
 
-
     FlickableList
     {
         id:flickableAlias
@@ -474,12 +473,13 @@ Item
                         }
                     }
 
-                    Text {
+                    Text
+                    {
                         id: buttonDeleteAlias
                         width: 20
                         height: 20
                         text:"\ue9ac"
-                        color:"white"
+                        color:mouseAreaDeleteAlias.pressed?Qt.darker("white", 2):"white"
                         anchors.right: parent.right
                         anchors.top: parent.top
                         anchors.topMargin: 8
@@ -487,6 +487,7 @@ Item
                         anchors.rightMargin: 12
                         MouseArea
                         {
+                            id:mouseAreaDeleteAlias
                             anchors.fill: parent
                             onReleased:
                             {

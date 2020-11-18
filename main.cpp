@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
 
     initRep();
 
-
     GestionActions gestAction;
+    GestionActions gestActionSequence;
 
     // The following are needed to make examples run without having to install the module
     // in desktop environments.
@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     QObject::connect(viewer.engine(), &QQmlEngine::quit, &viewer, &QWindow::close);
 
     viewer.engine()->rootContext()->setContextProperty("gestActions", &gestAction);
+    viewer.engine()->rootContext()->setContextProperty("gestActionsSequence", &gestActionSequence);
 
     viewer.setTitle(QStringLiteral("Creator Echalote"));
 #ifdef Q_OS_LINUX

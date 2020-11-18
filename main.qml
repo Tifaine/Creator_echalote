@@ -4,6 +4,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.12
 import "Composants"
 import "GestionActions"
+import "GestionSequence"
 
 Item {
     width: 1600
@@ -54,7 +55,7 @@ Item {
             id:listModel
             ListElement{ _nom:" " ;     index : 0 }
             ListElement{ _nom:" " ;         index : 1 }
-            ListElement{ _nom:" " ;      index : 2 }
+            ListElement{ _nom:"Séquence " ;      index : 2 }
             ListElement{ _nom:"Édition Action" ;        index : 3 }
             ListElement{ _nom:" " ;     index : 4 }
             ListElement{ _nom:" " ;    index : 5 }
@@ -66,6 +67,8 @@ Item {
             id: selecteurOnglets
             anchors.left: parent.left
             anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
             anchors.leftMargin: 0
             anchors.topMargin: 0
             model:listModel
@@ -96,9 +99,9 @@ Item {
             {
                 id: item2
             }
-            Item
+            MainPageSequence
             {
-                id: item3
+                id: mainPageSequence
             }
             MainPageGestionActions
             {

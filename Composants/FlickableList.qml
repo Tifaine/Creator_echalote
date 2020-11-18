@@ -27,7 +27,7 @@ Item {
         clip:true
         id: flickable
         height: 100
-        flickableDirection: Flickable.HorizontalFlick
+        flickableDirection: vertical===true? Flickable.VerticalFlick : Flickable.HorizontalFlick
         anchors.fill: parent
         contentWidth: itemParent.contentWidth; contentHeight: itemParent.contentHeight
         contentX: 0

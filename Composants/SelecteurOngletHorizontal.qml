@@ -3,31 +3,30 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.13
 
 Item {
-    id: element
-    height:800
-    width:100
+    id:selecteurOngletHorizontal
+    width:800
+    height: 30
 
     property var model
     signal changeAffichage(var nb)
     property int indiceAffiche:0
 
-    Column {
-        id: column
+    Row {
+        id: row
         anchors.fill: parent
 
         Repeater
         {
             id:repeater
-            model:element.model
+            model:selecteurOngletHorizontal.model
             anchors.fill: parent
-
-            ColumnLayout {
+            ColumnLayout
+            {
                 id: rowLayout
-                width: 100
-                height: element.height/element.model.count
-                x:0
-                y:height * index
-
+                height:30
+                width:selecteurOngletHorizontal.width / selecteurOngletHorizontal.model.count
+                x:width * index
+                y:0
                 MouseArea
                 {
                     id: mouseArea1
@@ -35,8 +34,8 @@ Item {
                     Layout.fillWidth: true
                     onClicked:
                     {
-                        element.indiceAffiche=index
-                        element.changeAffichage(index)
+                        selecteurOngletHorizontal.indiceAffiche=index
+                        selecteurOngletHorizontal.changeAffichage(index)
                     }
                     Rectangle {
                         id: rectangle4
@@ -62,13 +61,13 @@ Item {
 
                     Rectangle {
                         id: rectangle2
-                        height: 1
+                        width: 1
                         color: "white"
                         anchors.right: parent.right
                         anchors.rightMargin: 0
-                        anchors.left: parent.left
-                        anchors.leftMargin: 0
-                        anchors.top: rectangle4.bottom
+                        anchors.top: rectangle4.top
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 0
                         anchors.topMargin: 0
                         Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
                         Layout.preferredHeight: 1
@@ -77,8 +76,19 @@ Item {
 
                 }
             }
-
         }
+    }
 
+    Rectangle {
+        id: rectangle
+        y: 164
+        height: 1
+        color: "#ffffff"
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.rightMargin: 5
+        anchors.leftMargin: 5
+        anchors.bottomMargin: 0
     }
 }

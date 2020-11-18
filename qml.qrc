@@ -5,5 +5,7 @@
         <file>Composants/SelecteurOnglets.qml</file>
         <file>Composants/FlickableList.qml</file>
         <file>GestionActions/ParametrageAction.qml</file>
+        <file>GestionSequence/MainPageSequence.qml</file>
+        <file>Composants/SelecteurOngletHorizontal.qml</file>
     </qresource>
 </RCC>
