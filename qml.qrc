@@ -7,5 +7,6 @@
         <file>GestionActions/ParametrageAction.qml</file>
         <file>GestionSequence/MainPageSequence.qml</file>
         <file>Composants/SelecteurOngletHorizontal.qml</file>
+        <file>GestionSequence/Sequence.qml</file>
     </qresource>
 </RCC>

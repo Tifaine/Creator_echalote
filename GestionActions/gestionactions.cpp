@@ -6,6 +6,11 @@ GestionActions::GestionActions(QObject *parent) : QObject(parent)
 
 }
 
+Action* GestionActions::getAction(int indiceAction)
+{
+    return listActions.at(indiceAction);
+}
+
 int GestionActions::getNbAction()
 {
     return listActions.size();

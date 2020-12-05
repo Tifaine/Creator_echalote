@@ -11,6 +11,7 @@ class GestionActions : public QObject
     Q_OBJECT
 public:
     explicit GestionActions(QObject *parent = nullptr);
+    Action* getAction(int indiceAction);
 
 public slots:
     int getNbAction();

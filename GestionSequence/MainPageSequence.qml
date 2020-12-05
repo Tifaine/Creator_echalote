@@ -22,8 +22,8 @@ Item {
             for(var i = 0; i < gestActionsSequence.getNbAction(); i++)
             {
                 listActionSequence.append({"_x":5,
-                                      "_y":listActionSequence.count * 45, "_height":40 , "_width":110, "_nom":gestActionsSequence.getNomAction(i) , "index" : listActionSequence.count,
-                                      "_color":"#00ffffff"})
+                                              "_y":listActionSequence.count * 45, "_height":40 , "_width":110, "_nom":gestActionsSequence.getNomAction(i) , "index" : listActionSequence.count,
+                                              "_color":"#00ffffff"})
             }
         }
     }
@@ -31,7 +31,7 @@ Item {
     ListModel
     {
         id:listActionSequence
-        ListElement{ _x:0 ; _y:0; _height:40 ; _width:110; _nom:"Deplacement" ; index : 0; _color:"#00ffffff"; isBlocante: 0}
+        ListElement{ _x:0 ; _y:0; _height:40 ; _width:110; _nom:"Deplacement" ; index : 0; _color:"#00ffffff";}
     }
 
     FlickableList
@@ -48,17 +48,38 @@ Item {
         model:listActionSequence
         vertical: true
         contentWidth: 120; contentHeight: 5000
+
+        property int lastIndiceClicked:-1
+        property string lastNameClicked:""
+
         onClickGauche:
         {
 
         }
         onClickDroit:
         {
-            console.log("droit", indice, nom)
+            lastIndiceClicked = indice
+            lastNameClicked = nom
+            contextMenu.popup()
         }
         onDoubleClick:
         {
             console.log("double", indice, nom)
+        }
+
+        Menu
+        {
+            id: contextMenu
+            MenuItem
+            {
+                text: "Ajouter action"
+                onClicked:
+                {
+                    repeaterSequence.itemAt(selecteurSequence.indiceAffiche).addAction(flickableList.lastIndiceClicked, flickableList.lastNameClicked)
+                    flickableList.lastIndiceClicked = -1
+                    flickableList.lastNameClicked = ""
+                }
+            }
         }
     }
 
@@ -86,37 +107,16 @@ Item {
         interactive: false
         currentIndex: selecteurSequence.indiceAffiche
 
-        Item
+        Repeater
         {
-            id: item00
-        }
-        Item
-        {
-            id: item2
-        }
-        Item
-        {
-            id: item3
-        }
-        Item
-        {
-            id: item4
-        }
-        Item
-        {
-            id: item5
-        }
-        Item
-        {
-            id: item6
-        }
-        Item
-        {
-            id: item7
-        }
-        Item
-        {
-            id: item8
+            id:repeaterSequence
+            model:listSequence
+
+            Sequence
+            {
+                id:sequence
+            }
+
         }
     }
 
@@ -138,6 +138,7 @@ Item {
         anchors.leftMargin: 5
         anchors.topMargin: 0
         model:listSequence
+
     }
     Text
     {
@@ -179,7 +180,7 @@ Item {
             anchors.fill: parent
             onReleased:
             {
-
+                swipeView.currentItem.item.talkBiatch()
             }
         }
     }

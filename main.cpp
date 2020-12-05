@@ -5,6 +5,7 @@
 #include <QtCore/QDir>
 #include <QFontDatabase>
 #include "GestionActions/gestionactions.h"
+#include "GestionSequence/sequence.h"
 
 void initRep();
 
@@ -45,6 +46,8 @@ int main(int argc, char *argv[])
     viewer.engine()->rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
     //viewer.engine()->rootContext()->setContextProperty("icomoon", font);
 
+
+    qmlRegisterType<Sequence>("sequence",1, 0,"SequenceCPP");
 
     viewer.setSource(QUrl("qrc:/main.qml"));
     viewer.setResizeMode(QQuickView::SizeRootObjectToView);

@@ -9,6 +9,7 @@ CONFIG += c++11
 SOURCES += \
         GestionActions/action.cpp \
         GestionActions/gestionactions.cpp \
+        GestionSequence/sequence.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -26,4 +27,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     GestionActions/action.h \
-    GestionActions/gestionactions.h
+    GestionActions/gestionactions.h \
+    GestionSequence/sequence.h
