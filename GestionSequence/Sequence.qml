@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import sequence 1.0
+import "../Composants"
 
 Item {
     id:sequence
@@ -18,6 +19,15 @@ Item {
     SequenceCPP
     {
         id:sequenceCpp
+    }
+
+    BlocAction
+    {
+        x: 147
+        y: 97
+        width: 200
+        height: 199
+
     }
 }
 

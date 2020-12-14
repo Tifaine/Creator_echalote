@@ -8,5 +8,6 @@
         <file>GestionSequence/MainPageSequence.qml</file>
         <file>Composants/SelecteurOngletHorizontal.qml</file>
         <file>GestionSequence/Sequence.qml</file>
+        <file>Composants/BlocAction.qml</file>
     </qresource>
 </RCC>
