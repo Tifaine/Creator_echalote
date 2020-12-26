@@ -18,6 +18,16 @@ int Sequence::getNbAction()
     return gestActions->getNbAction();
 }
 
+int Sequence::getNbActionInSequence()
+{
+    return listActionSequence.size();
+}
+
+Action* Sequence::getActionAt(int indiceAction)
+{
+    return listActionSequence.at(indiceAction);
+}
+
 QString Sequence::getNomAction(int indiceAction)
 {
     return gestActions->getNomAction(indiceAction);

@@ -3,6 +3,21 @@ import QtQuick 2.0
 Item {
     id: item1
     width: 200
+    property int indiceAction : -1
+    property int indiceInSequence : -1
+    property var _sequenceCpp
+
+    MouseArea
+    {
+        anchors.fill: parent
+        drag.target: item1;
+        propagateComposedEvents:true
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onPressed:
+        {
+
+        }
+    }
 
     Rectangle {
         id: fond
@@ -52,11 +67,10 @@ Item {
                 anchors.top: parent.top
                 anchors.topMargin: 0
                 font.pixelSize: 14
-                text:"Boop boop"
+                text:indiceAction===-1?"":_sequenceCpp.getNomAction(indiceAction)
             }
         }
     }
-
 }
 
 /*##^##

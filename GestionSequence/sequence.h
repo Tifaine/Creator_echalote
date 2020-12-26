@@ -13,8 +13,10 @@ public:
 public slots:
     void init();
     int getNbAction();
+    int getNbActionInSequence();
     QString getNomAction(int indiceAction);
     void addAction(int indiceAction);
+    Action* getActionAt(int indiceAction);
 
 private slots:
     void onFinInitActions();

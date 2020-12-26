@@ -229,6 +229,7 @@ void Action::loadAction(QString nameFile)
         if(json.contains("nomAction") )
         {
             setNom(json["nomAction"].toString());
+            qDebug()<<getNom();
         }
         if(json.contains("blocante") )
         {
