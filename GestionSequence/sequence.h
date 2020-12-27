@@ -16,7 +16,15 @@ public slots:
     int getNbActionInSequence();
     QString getNomAction(int indiceAction);
     void addAction(int indiceAction);
-    Action* getActionAt(int indiceAction);
+    int getNbParamAction(int indiceAction);
+    QString getNomParamAction(int indiceAction, int indiceParam);
+    QString getDefaultValueParamAction(int indiceAction, int indiceParam);
+    int getNbAliasParamAction(int indiceAction, int indiceParam);
+    QString getNomAliasParamAction(int indiceAction, int indiceParam, int indiceAlias);
+    QString getValueAliasParamAction(int indiceAction, int indiceParam, int indiceAlias);
+    void setParamValue(int indiceAction, int indiceParam, QString value);
+
+    void detailActions();
 
 private slots:
     void onFinInitActions();

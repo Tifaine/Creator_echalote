@@ -229,7 +229,6 @@ void Action::loadAction(QString nameFile)
         if(json.contains("nomAction") )
         {
             setNom(json["nomAction"].toString());
-            qDebug()<<getNom();
         }
         if(json.contains("blocante") )
         {
@@ -264,6 +263,15 @@ void Action::loadAction(QString nameFile)
             }
         }
         loadFile.close();
+    }
+}
+
+void Action::toString()
+{
+    qDebug()<<"Action : "<<getNom();
+    for(Parametre * param : listParam)
+    {
+        qDebug()<<param->name<<" "<<param->defaultValue;
     }
 }
 

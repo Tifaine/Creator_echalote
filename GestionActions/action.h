@@ -65,6 +65,8 @@ public:
     void save();
     void loadAction(QString nameFile);
 
+    void toString();
+
 private:
     QString _nom;
     bool blocante;

@@ -180,7 +180,7 @@ Item {
             anchors.fill: parent
             onReleased:
             {
-                swipeView.currentItem.item.talkBiatch()
+
             }
         }
     }
@@ -202,7 +202,7 @@ Item {
             anchors.fill: parent
             onReleased:
             {
-
+                swipeView.currentItem.saveSequence()
             }
         }
     }
