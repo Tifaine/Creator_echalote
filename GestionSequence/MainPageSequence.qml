@@ -202,9 +202,24 @@ Item {
             anchors.fill: parent
             onReleased:
             {
-                swipeView.currentItem.saveSequence()
+                popupSave.placeholder = listSequence.get(swipeView.currentIndex)._nom
+
+
+
+                popupSave.x= Math.round((item1.width - popupSave.width) / 2)
+                popupSave.y= Math.round((item1.height - popupSave.height) / 2)
+                popupSave.open()
+
+                //
             }
         }
+    }
+
+    CustomPopUp
+    {
+        id:popupSave
+        textValidButton:"Enregistrer"
+        onValidate: swipeView.currentItem.saveSequence(text)
     }
 
 }

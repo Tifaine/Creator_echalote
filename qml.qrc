@@ -10,5 +10,6 @@
         <file>GestionSequence/Sequence.qml</file>
         <file>Composants/BlocAction.qml</file>
         <file>Composants/CustomComboBox.qml</file>
+        <file>Composants/CustomPopUp.qml</file>
     </qresource>
 </RCC>

@@ -97,7 +97,7 @@ ComboBox {
         color:"#262626"
         border.color: customComboBox.pressed ? "#4d0000" : "#66000"
         border.width: customComboBox.visualFocus ? 2 : 1
-        radius: 2
+        radius: 7
     }
 
     popup: Popup {
@@ -118,7 +118,7 @@ ComboBox {
         background: Rectangle {
             border.color: "#4d0000"
             color:"#363636"
-            radius: 2
+            radius: 7
         }
     }
 }

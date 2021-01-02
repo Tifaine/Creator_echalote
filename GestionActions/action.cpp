@@ -273,5 +273,52 @@ void Action::toString()
     {
         qDebug()<<param->name<<" "<<param->defaultValue;
     }
+    qDebug()<<"liste des Peres :";
+    for(Action * act : listPeres)
+    {
+        qDebug()<<act->getNom();
+    }
+
+    qDebug()<<"liste des Filles :";
+    for(Action * act : listFilles)
+    {
+        qDebug()<<act->getNom();
+    }
+
+    qDebug()<<"liste des Timeout :";
+    for(Action * act : listTimeout)
+    {
+        qDebug()<<act->getNom();
+    }
+}
+
+void Action::addFille(Action * fille)
+{
+    listFilles.append(fille);
+}
+
+void Action::addPapa(Action * papa)
+{
+    listPeres.append(papa);
+}
+
+void Action::addTimeout(Action * timeout)
+{
+    listTimeout.append(timeout);
+}
+
+QList<Action *> Action::getListPere()
+{
+    return listPeres;
+}
+
+QList<Action *> Action::getListFille()
+{
+    return listFilles;
+}
+
+QList<Action *> Action::getListTimeout()
+{
+    return listTimeout;
 }
 

@@ -25,6 +25,11 @@ public slots:
     void setParamValue(int indiceAction, int indiceParam, QString value);
 
     void detailActions();
+    void addFilleToAction(int indiceActionMere, int indiceActionFille);
+    void addPereToAction(int indiceActionFille, int indiceActionPere);
+    void addTimeoutToAction(int indiceActionMere, int indiceActionTimeout);
+
+    void saveSequence(QString fileName);
 
 private slots:
     void onFinInitActions();

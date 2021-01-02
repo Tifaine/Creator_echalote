@@ -67,10 +67,21 @@ public:
 
     void toString();
 
+    void addFille(Action * fille);
+    void addPapa(Action * papa);
+    void addTimeout(Action * timeout);
+
+    QList<Action *> getListPere();
+    QList<Action *> getListFille();
+    QList<Action *> getListTimeout();
+
 private:
     QString _nom;
     bool blocante;
     QList<Parametre *> listParam;
+    QList<Action *> listFilles;
+    QList<Action *> listPeres;
+    QList<Action *> listTimeout;
 
 };
 

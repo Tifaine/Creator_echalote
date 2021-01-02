@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
+import connector 1.0
 
 Item {
     id: item1
@@ -11,18 +12,25 @@ Item {
     property int yEntreeClicked : 0
     property int xSortieClicked : 0
     property int ySortieClicked : 0
+    property int xTimeoutClicked : 0
+    property int yTimeoutClicked : 0
     property var _sequenceCpp
     property bool _isInit : false
 
+    property var actionsFilles : []
+    property var actionsPere : []
+    property var actionsTimeOut : []
+
     signal entreeClicked()
     signal sortieClicked()
+    signal timeoutClicked()
 
     function init()
     {
         listParameterAction.clear()
+
         if(indiceAction > -1 )
         {
-            //C'est dégeulasse. Trouver autre chose de plus propre.
             var taille = 0;
             for(var i = 0 ; i < _sequenceCpp.getNbParamAction(indiceAction) ; i++)
             {
@@ -37,6 +45,13 @@ Item {
                     repeaterParameterAction.itemAt(listParameterAction.count - 1).addAlias(_sequenceCpp.getNomAliasParamAction(indiceAction, i , j), _sequenceCpp.getValueAliasParamAction(indiceAction, i , j))
                 }
 
+                if( _sequenceCpp.getNomParamAction(indiceAction, i) === "Timeout")
+                {
+                    timeout.visible = true
+                    fondEntete.color = "#4d0000"
+                }
+
+
                 taille += 20
                 taille += 30
                 taille += 10
@@ -48,9 +63,108 @@ Item {
             height = taille + 32
             _isInit = true
         }
+
+        xEntreeClicked = item1.x + entree.x + entree.width/2
+        yEntreeClicked = item1.y + entree.y + entree.height/2
+        xSortieClicked = item1.x + sortie.x + sortie.width/2
+        ySortieClicked = item1.y + sortie.y + sortie.height/2
+        xTimeoutClicked = item1.x + timeout.x + timeout.width/2
+        yTimeoutClicked = item1.y + timeout.y + timeout.height/2
+        listConnector.clear()
     }
 
+    function addFille(actionFille)
+    {
+        if(actionsFilles.indexOf(actionFille) === -1)
+        {
+            actionsFilles.push(actionFille)
 
+            listConnector.append({"_x1":xSortieClicked - item1.x,
+                                     "_y1": ySortieClicked - item1.y,
+                                     "_x2": actionFille.xEntreeClicked - item1.x,
+                                     "_y2": actionFille.yEntreeClicked - item1.y,
+                                     "isTimeout":false,
+                                     "color":"blue"})
+
+            _sequenceCpp.addFilleToAction(indiceInSequence, actionFille.indiceInSequence)
+        }
+    }
+
+    function addTimout(actionFille)
+    {
+        if(actionsTimeOut.indexOf(actionFille) === -1)
+        {
+            actionsTimeOut.push(actionFille)
+            listConnector.append({"_x1":xTimeoutClicked - item1.x,
+                                     "_y1": yTimeoutClicked - item1.y,
+                                     "_x2": actionFille.xEntreeClicked - item1.x,
+                                     "_y2": actionFille.yEntreeClicked - item1.y,
+                                     "isTimeout":true,
+                                     "color":"yellow"})
+
+            _sequenceCpp.addTimeoutToAction(indiceInSequence, actionFille.indiceInSequence)
+        }
+    }
+
+    function addPere(actionPere)
+    {
+        if(actionsPere.indexOf(actionPere) === -1)
+        {
+            actionsPere.push(actionPere)
+            _sequenceCpp.addPereToAction(indiceInSequence, actionPere.indiceInSequence)
+        }
+    }
+
+    function actualiseConnector()
+    {
+        if(_isInit)
+        {
+            var indiceFille = 0
+            var indiceTimeout = 0
+            for(var i = 0; i < listConnector.count; i++)
+            {
+                if(listConnector.get(i).isTimeout === false)
+                {
+                    listConnector.set(i, {"_x1": xSortieClicked - item1.x,
+                                          "_y1": ySortieClicked - item1.y,
+                                          "_x2": actionsFilles[indiceFille].xEntreeClicked - item1.x,
+                                          "_y2": actionsFilles[indiceFille].yEntreeClicked - item1.y})
+                    indiceFille++
+                }else
+                {
+                    listConnector.set(i, {"_x1": xTimeoutClicked - item1.x,
+                                          "_y1": yTimeoutClicked - item1.y,
+                                          "_x2": actionsTimeOut[indiceTimeout].xEntreeClicked - item1.x,
+                                          "_y2": actionsTimeOut[indiceTimeout].yEntreeClicked - item1.y})
+                    indiceTimeout++
+                }
+            }
+        }
+    }
+
+    onXChanged:
+    {
+        xEntreeClicked = item1.x + entree.x + entree.width/2
+        xSortieClicked = item1.x + sortie.x + sortie.width/2
+        xTimeoutClicked = item1.x + timeout.x + timeout.width/2
+        actualiseConnector()
+
+        for(var i = 0; i < actionsPere.length; i++)
+        {
+            actionsPere[i].actualiseConnector()
+        }
+    }
+    onYChanged:
+    {
+        yEntreeClicked = item1.y + entree.y + entree.height/2
+        ySortieClicked = item1.y + sortie.y + sortie.height/2
+        yTimeoutClicked = item1.y + timeout.y + timeout.height/2
+        actualiseConnector()
+        for(var i = 0; i < actionsPere.length; i++)
+        {
+            actionsPere[i].actualiseConnector()
+        }
+    }
 
     MouseArea
     {
@@ -64,9 +178,40 @@ Item {
         }
     }
 
+    ListModel
+    {
+        id:listConnector
+        ListElement
+        {
+            _x1:0
+            _y1:0
+            _x2:0
+            _y2:0
+            isTimeout:false
+            color:"blue"
+        }
+    }
+
+    Repeater
+    {
+        anchors.fill: parent
+        model:listConnector
+        Connector
+        {
+            x1:_x1
+            y1:_y1
+            x2:_x2
+            y2:_y2
+            _color:color
+        }
+    }
+
+
+
     Rectangle {
         id: entree
         objectName: "entree"
+        visible:testNom.text!=="Départ"
         z:1
         width: 12
         height: 12
@@ -82,8 +227,7 @@ Item {
             anchors.fill: parent
             onClicked:
             {
-                xEntreeClicked = item1.x + entree.x + entree.width/2
-                yEntreeClicked = item1.y + entree.y + entree.height/2
+
                 entreeClicked()
             }
         }
@@ -93,6 +237,7 @@ Item {
         id: sortie
         objectName: "sortie"
         z:1
+        visible:testNom.text!=="Fin"
         width: 12
         height: 12
         color: "#000000"
@@ -108,9 +253,33 @@ Item {
             anchors.fill: parent
             onClicked:
             {
-                xSortieClicked = item1.x + sortie.x + sortie.width/2
-                ySortieClicked = item1.y + sortie.y + sortie.height/2
+
                 sortieClicked()
+            }
+        }
+    }
+
+    Rectangle {
+        id: timeout
+        objectName: "timeout"
+        z:1
+        visible:false
+        width: 12
+        height: 12
+        color: "#000000"
+        radius: 6
+        border.color: "#ffcc00"
+        border.width: 1
+        anchors.left: parent.right
+        anchors.top: sortie.bottom
+        anchors.leftMargin: -6
+        anchors.topMargin: 6
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked:
+            {
+                timeoutClicked()
             }
         }
     }
@@ -134,7 +303,7 @@ Item {
             anchors.leftMargin: 1
             anchors.top: parent.top
             anchors.topMargin: 1
-            color : "#4d0000"
+            color : "transparent"
 
             Rectangle {
                 id: separationHeader
@@ -260,6 +429,7 @@ Item {
             }
         }
     }
+
 
 
 }

@@ -7,6 +7,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Composants/connector.cpp \
         GestionActions/action.cpp \
         GestionActions/gestionactions.cpp \
         GestionSequence/sequence.cpp \
@@ -26,6 +27,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Composants/connector.h \
     GestionActions/action.h \
     GestionActions/gestionactions.h \
     GestionSequence/sequence.h

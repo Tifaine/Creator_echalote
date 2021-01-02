@@ -84,6 +84,97 @@ void Sequence::detailActions()
     }
 }
 
+void Sequence::addFilleToAction(int indiceActionMere, int indiceActionFille)
+{
+    if(indiceActionMere < listActionSequence.size() && indiceActionFille < listActionSequence.size())
+        listActionSequence.at(indiceActionMere)->addFille(listActionSequence.at(indiceActionFille));
+}
+
+void Sequence::addPereToAction(int indiceActionFille, int indiceActionPere)
+{
+    if(indiceActionFille < listActionSequence.size() && indiceActionPere < listActionSequence.size())
+        listActionSequence.at(indiceActionFille)->addPapa(listActionSequence.at(indiceActionPere));
+}
+
+void Sequence::addTimeoutToAction(int indiceActionMere, int indiceActionTimeout)
+{
+    if(indiceActionMere < listActionSequence.size() && indiceActionTimeout < listActionSequence.size())
+        listActionSequence.at(indiceActionMere)->addTimeout(listActionSequence.at(indiceActionTimeout));
+}
+
+void Sequence::saveSequence(QString fileName)
+{
+    QFile saveFile("data/Sequence/"+ fileName +".json");
+    if(!saveFile.open(QIODevice::ReadWrite))
+    {
+        qDebug()<<"Failed ! "<<saveFile.fileName();
+    }else
+    {
+        saveFile.flush();
+        saveFile.resize(0);
+        QJsonArray arraySequence;
+        QJsonObject objectSequence;
+        for(Action * act : listActionSequence)
+        {
+            QJsonObject saveObject;
+            QJsonArray arrayParam;
+
+            saveObject["indice"] = listActionSequence.indexOf(act);
+            saveObject["nomAction"] = act->getNom();
+            QString nomParam("nomParam");
+            QString defaultValue("defaultValue");
+            for(int i = 0; i < act->getNbParam(); i++)
+            {
+                QJsonObject item_data;
+                item_data.insert(nomParam, QJsonValue(act->getParamName(i)));
+                item_data.insert(defaultValue, QJsonValue(act->getParamDefaultValue(i)));
+                arrayParam.push_back(QJsonValue(item_data));
+            }
+
+            QJsonArray arrayPere;
+            QString indicePere("indicePere");
+            for(int i = 0; i < act->getListPere().size(); i++)
+            {
+                QJsonObject item_daddy;
+                item_daddy.insert(indicePere, listActionSequence.indexOf(act->getListPere().at(i)));
+                arrayPere.push_back(QJsonValue(item_daddy));
+            }
+
+            QJsonArray arrayFille;
+            QString indiceFille("indiceFille");
+            for(int i = 0; i < act->getListFille().size(); i++)
+            {
+                QJsonObject item_girl;
+                item_girl.insert(indiceFille, listActionSequence.indexOf(act->getListFille().at(i)));
+                arrayFille.push_back(QJsonValue(item_girl));
+            }
+
+            QJsonArray arrayTimeout;
+            QString indiceTimeout("indiceTimeout");
+            for(int i = 0; i < act->getListTimeout().size(); i++)
+            {
+                QJsonObject item_timeout;
+                item_timeout.insert(indiceTimeout, listActionSequence.indexOf(act->getListTimeout().at(i)));
+                arrayTimeout.push_back(QJsonValue(item_timeout));
+            }
+            saveObject["arrayDaddy"] = arrayPere;
+            saveObject["arrayGirl"] = arrayFille;
+            saveObject["arrayTimeout"] = arrayTimeout;
+            saveObject["arrayParam"] = arrayParam;
+            saveObject["blocante"] = act->isBlocante();
+            //saveObject["xBloc"] = item->getXBloc();
+            //saveObject["yBloc"] = item->getYBloc();
+
+            arraySequence.push_back(QJsonValue(saveObject));
+        }
+
+        objectSequence["sequence"] = arraySequence;
+        QJsonDocument saveDoc(objectSequence);
+        saveFile.write(saveDoc.toJson());
+        saveFile.close();
+    }
+}
+
 void Sequence::onFinInitActions()
 {
 

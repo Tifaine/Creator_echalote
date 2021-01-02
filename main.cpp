@@ -6,6 +6,7 @@
 #include <QFontDatabase>
 #include "GestionActions/gestionactions.h"
 #include "GestionSequence/sequence.h"
+#include "Composants/connector.h"
 
 void initRep();
 
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
 
 
     qmlRegisterType<Sequence>("sequence",1, 0,"SequenceCPP");
+    qmlRegisterType<Connector>("connector", 1, 0, "Connector");
 
     viewer.setSource(QUrl("qrc:/main.qml"));
     viewer.setResizeMode(QQuickView::SizeRootObjectToView);
