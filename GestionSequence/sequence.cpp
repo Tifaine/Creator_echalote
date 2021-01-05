@@ -175,6 +175,11 @@ void Sequence::saveSequence(QString fileName)
     }
 }
 
+void Sequence::updateAliasSequence()
+{
+    gestActions->updateAliasSequence();
+}
+
 void Sequence::onFinInitActions()
 {
 

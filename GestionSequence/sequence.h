@@ -30,6 +30,7 @@ public slots:
     void addTimeoutToAction(int indiceActionMere, int indiceActionTimeout);
 
     void saveSequence(QString fileName);
+    void updateAliasSequence();
 
 private slots:
     void onFinInitActions();

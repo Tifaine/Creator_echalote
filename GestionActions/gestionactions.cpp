@@ -182,6 +182,30 @@ void GestionActions::saveAction(int indiceAction)
     }
 }
 
+void GestionActions::updateAliasSequence()
+{
+    QDir dir("data/Sequence");
+    QStringList filters;
+    filters << "*.json";
+    dir.setNameFilters(filters);
+    QFileInfoList list = dir.entryInfoList();
+
+    if(listActions.at(2)->getNom().compare("Sequence") == 0)
+    {
+        while(listActions.at(2)->getNbAlias(0) > 0)
+        {
+            listActions.at(2)->deleteAlias(0,0);
+        }
+    }
+
+    for(int i = 0; i < list.size(); i++)
+    {
+        listActions.at(2)->addAlias(0);
+        listActions.at(2)->setAliasName( 0, i, list.at(i).fileName().left(list.at(i).fileName().length()-5));
+        listActions.at(2)->setAliasValue(0, i, list.at(i).fileName().left(list.at(i).fileName().length()-5));
+    }
+}
+
 void GestionActions::openAllAction()
 {
     QDir dir("data/Actions");
@@ -197,6 +221,7 @@ void GestionActions::openAllAction()
     listActions.last()->addParam();
     listActions.last()->setParamName(0, "Nom");
     listActions.last()->setParamDefaultValue(0, "init");
+    updateAliasSequence();
 
     for(int i = 0; i < list.size(); i++)
     {

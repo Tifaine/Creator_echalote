@@ -38,6 +38,7 @@ public slots:
     void deleteAlias(int indiceAction, int indiceParam, int indiceAlias);
 
     void saveAction(int indiceAction);
+    void updateAliasSequence();
     void openAllAction();
 
 signals:

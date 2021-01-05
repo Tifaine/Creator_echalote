@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
+import Qt.labs.folderlistmodel 2.12
 import connector 1.0
 
 Item {
@@ -32,6 +33,12 @@ Item {
         if(indiceAction > -1 )
         {
             var taille = 0;
+
+            if(_sequenceCpp.getNomAction(indiceAction) === "Sequence")
+            {
+                _sequenceCpp.updateAliasSequence()
+            }
+
             for(var i = 0 ; i < _sequenceCpp.getNbParamAction(indiceAction) ; i++)
             {
                 var hasAlias = false
@@ -71,7 +78,11 @@ Item {
         xTimeoutClicked = item1.x + timeout.x + timeout.width/2
         yTimeoutClicked = item1.y + timeout.y + timeout.height/2
         listConnector.clear()
+
+
     }
+
+
 
     function addFille(actionFille)
     {
