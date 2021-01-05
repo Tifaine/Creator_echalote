@@ -28,6 +28,9 @@ int main(int argc, char *argv[])
     QQuickView viewer;
     QString extraImportPath(QStringLiteral("%1/../../../%2"));
     QFontDatabase::addApplicationFont("data/icomoon/fonts/icomoon.ttf");
+    QSurfaceFormat format;
+    format.setSamples(20);
+    QSurfaceFormat::setDefaultFormat(format);
 
     viewer.engine()->addImportPath(extraImportPath.arg(QGuiApplication::applicationDirPath(),
                                                        QString::fromLatin1("qml")));
@@ -47,6 +50,7 @@ int main(int argc, char *argv[])
     viewer.engine()->rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
     //viewer.engine()->rootContext()->setContextProperty("icomoon", font);
 
+    viewer.setFormat(format);
 
     qmlRegisterType<Sequence>("sequence",1, 0,"SequenceCPP");
     qmlRegisterType<Connector>("connector", 1, 0, "Connector");
